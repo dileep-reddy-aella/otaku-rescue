@@ -72,8 +72,12 @@ async function sendMail() {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD,
+      //user: process.env.EMAIL,
+      //pass: process.env.PASSWORD,
+      //Use these if you want to hide you email and password using a .env file
+      //if you don't want it you can just add your mail and password below directly as shown in next lines
+      user: 'yourmail@gmail.com',
+      pass: 'your_password',
     },
   });
 
