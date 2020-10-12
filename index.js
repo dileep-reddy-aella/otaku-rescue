@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 // This code gets us today's date
+
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -33,6 +34,7 @@ async function checkChapter(page) {
 
   // If you change the url then you also need to change the path
   // to the element you want to find
+
   $(
     "table[class='d48'] > tbody > tr:last-of-type > td:last-of-type",
     html
@@ -74,6 +76,7 @@ async function startTracking() {
   job.start();
 }
 
+
 //If you want to use another mail service other than gmail
 // then make changes as you like in accordance with .env file
 async function sendMail() {
@@ -82,7 +85,6 @@ async function sendMail() {
     auth: {
       user: process.env.EMAIL,
       pass: process.env.PASSWORD,
-    },
   });
 
   let mailOptions = {
@@ -103,10 +105,3 @@ async function sendMail() {
 }
 
 startTracking();
-
-// async function monitor() {
-//   let page = await configureBrowser();
-//   await checkChapter(page);
-// }
-
-// monitor();

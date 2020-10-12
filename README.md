@@ -15,5 +15,3 @@ Description: The app runs daily at 11pm every night and scrapes Mangareader site
 * I placed comments in code wherever there is a chance to ccustomize.
 * So customize it accordingly as explained in the comments.
 * The next part is you running the code.
- 
-
