@@ -7,7 +7,7 @@ Description: The app runs daily at 11pm every night and scrapes Mangareader site
 * First install the dependencies using the command “pip install”. This will install all the         required dependencies present in *package.json file*.
 * Next create a .env file in which you need to store the info regarding the from and to mail address and password as shown in image below.
   
-  ![GitHub Logo](\Users\Lenovo\Videos\Captures\.env-file-VisualStudioCode.png)
+  
   
 * Add the details accordingly without any inverted commas.
  
