@@ -4,6 +4,8 @@ const CronJob = require("cron").CronJob;
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+// This code gets us today's date
+
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, "0");
 var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -15,6 +17,7 @@ today = mm + "/" + dd + "/" + yyyy;
 
 var relDate = "";
 
+// You can replace this url with the website you wish to scrape
 const url = "https://www.mangareader.net/boruto-naruto-next-generations";
 
 async function configureBrowser() {
@@ -28,6 +31,9 @@ async function checkChapter(page) {
   await page.reload();
   let html = await page.evaluate(() => document.body.innerHTML);
   //console.log(html);
+
+  // If you change the url then you also need to change the path
+  // to the element you want to find
 
   $(
     "table[class='d48'] > tbody > tr:last-of-type > td:last-of-type",
@@ -51,9 +57,11 @@ async function checkChapter(page) {
   });
 }
 
+//This code make the program run everyday at 11pm
 async function startTracking() {
   const page = await configureBrowser();
 
+  // "0 23 * * *" refers to 11pm every day
   let job = new CronJob(
     "0 23 * * *",
     function () {
@@ -68,22 +76,20 @@ async function startTracking() {
   job.start();
 }
 
+
+//If you want to use another mail service other than gmail
+// then make changes as you like in accordance with .env file
 async function sendMail() {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      //user: process.env.EMAIL,
-      //pass: process.env.PASSWORD,
-      //Use these if you want to hide you email and password using a .env file
-      //if you don't want it you can just add your mail and password below directly as shown in next lines
-      user: 'yourmail@gmail.com',
-      pass: 'your_password',
-    },
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD,
   });
 
   let mailOptions = {
-    from: "tstdileep@gmail.com",
-    to: "saidileepreddyaella@gmail.com",
+    from: process.env.EMAIL,
+    to: process.env.TO,
     subject: "Boruto-New Chapter",
     text:
       "Open the link to go to site: https://www.mangareader.net/boruto-naruto-next-generations",
@@ -99,10 +105,3 @@ async function sendMail() {
 }
 
 startTracking();
-
-// async function monitor() {
-//   let page = await configureBrowser();
-//   await checkChapter(page);
-// }
-
-// monitor();
