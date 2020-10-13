@@ -4,21 +4,12 @@ const CronJob = require("cron").CronJob;
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// This code gets us today's date
-
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, "0");
-var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-var yyyy = today.getFullYear();
-
-today = mm + "/" + dd + "/" + yyyy;
-
-// console.log(today);
-
-var relDate = "";
+var prevChap = "168";
+var message = "";
 
 // You can replace this url with the website you wish to scrape
-const url = "https://www.mangareader.net/boruto-naruto-next-generations";
+const url =
+  "https://anilist.co/anime/97938/Boruto-Naruto-Next-Generations/watch";
 
 async function configureBrowser() {
   const browser = await puppeteer.launch();
@@ -34,25 +25,20 @@ async function checkChapter(page) {
 
   // If you change the url then you also need to change the path
   // to the element you want to find
+  $("a[class='episode']:first-of-type > div", html).each(function () {
+    let currentChap = $(this).text().slice(8, 11);
+    console.log(currentChap);
 
-  $(
-    "table[class='d48'] > tbody > tr:last-of-type > td:last-of-type",
-    html
-  ).each(function () {
-    relDate = $(this).text();
-  });
-
-  $("ul[class='d44'] > li:first-of-type > a", html).each(function () {
-    let chap = $(this).text();
-    // console.log(currentChap);
-
-    if (relDate === today) {
-      //   console.log("New chap");
+    if (Number(currentChap) > Number(prevChap)) {
+      console.log("New chap");
       sendMail();
+      prevChap = currentChap;
+      console.log(prevChap);
+      message = $(this).text();
     } else {
       console.log("no new chap");
-      console.log(relDate);
-      console.log(today);
+      console.log(currentChap);
+      console.log(prevChap);
     }
   });
 }
@@ -76,7 +62,6 @@ async function startTracking() {
   job.start();
 }
 
-
 //If you want to use another mail service other than gmail
 // then make changes as you like in accordance with .env file
 async function sendMail() {
@@ -85,6 +70,7 @@ async function sendMail() {
     auth: {
       user: process.env.EMAIL,
       pass: process.env.PASSWORD,
+    },
   });
 
   let mailOptions = {
@@ -92,7 +78,8 @@ async function sendMail() {
     to: process.env.TO,
     subject: "Boruto-New Chapter",
     text:
-      "Open the link to go to site: https://www.mangareader.net/boruto-naruto-next-generations",
+      message +
+      "Open the link to go to site: https://anilist.co/anime/97938/Boruto-Naruto-Next-Generations/watch",
   };
 
   transporter.sendMail(mailOptions, function (err, data) {
