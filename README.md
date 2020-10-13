@@ -12,6 +12,12 @@ Description: The app runs daily at 11pm every night and scrapes Mangareader site
 ![env-file-VisualStudioCode](https://user-images.githubusercontent.com/71386305/95725402-3db71080-0c95-11eb-8bbc-ddeb9c958175.png)
 
 * Add the details accordingly without any inverted commas.
-* I placed comments in code wherever there is a chance to ccustomize.
+* If you want to change the tracking time(i.e when does the code scrape the site) as shown in below img.
+
+![index js - Anime_scraper - Visual Studio Code 13-10-2020 13_40_33](https://user-images.githubusercontent.com/71386305/95833885-dca54080-0d59-11eb-90c9-2ac9273605eb.png)
+
+* Visit this link to know how cronJob works https://code.tutsplus.com/tutorials/scheduling-tasks-with-cron-jobs--net-88 .
+* I placed comments in code wherever there is a chance to customize.
 * So customize it accordingly as explained in the comments.
 * The next part is you running the code.
+
